@@ -1,50 +1,134 @@
-# Welcome to your Expo app 👋
+# Expense Tracker App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A professional, fully offline mobile expense tracker app built with Expo and React Native.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Dashboard**: View total expenses, remaining budget, and category breakdown with interactive charts
+- **Expense Management**: Add, edit, and delete expenses with AI-powered automatic categorization
+- **Natural Language Input**: Add expenses using natural language (e.g., "Spent 500 BDT on groceries yesterday")
+- **Reports & Exports**: View monthly/yearly summaries and export data to CSV or PDF
+- **Settings**: Manage expense categories and switch between dark/light mode
+- **Offline-First**: Fully functional without an internet connection using local SQLite storage
+- **Default Currency**: BDT (Bangladeshi Taka) with support for other currencies
 
+## Tech Stack
+
+- **Frontend**: React Native with Expo
+- **Local Database**: SQLite via expo-sqlite
+- **Charts**: react-native-chart-kit
+- **AI Features**: Rule-based natural language processing for expense categorization
+- **Navigation**: Expo Router with tab-based navigation
+
+## Screenshots
+
+Dashboard | Expenses | Reports | Settings
+---------|----------|---------|---------
+![Dashboard](./assets/screenshots/dashboard.png) | ![Expenses](./assets/screenshots/expenses.png) | ![Reports](./assets/screenshots/reports.png) | ![Settings](./assets/screenshots/settings.png)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (version 14 or higher)
+- npm or yarn
+- Expo CLI
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   ```
+
+2. Navigate to the project directory:
+   ```bash
+   cd expense-tracker
+   ```
+
+3. Install dependencies:
    ```bash
    npm install
    ```
 
-2. Start the app
-
+4. Start the development server:
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+### Running on Devices
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **iOS Simulator**: Press `i` in the terminal after starting the development server
+- **Android Emulator**: Press `a` in the terminal after starting the development server
+- **Physical Device**: Install the Expo Go app and scan the QR code
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Project Structure
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+app/
+  (tabs)/
+    dashboard.tsx     # Dashboard with charts and summaries
+    expenses.tsx      # Expense management screen
+    reports.tsx       # Reports and export functionality
+    settings.tsx      # App settings and category management
+  _layout.tsx         # Tab navigation layout
+constants/
+  theme.ts            # Color definitions and themes
+hooks/
+  use-color-scheme.ts # Theme handling
+  use-theme-color.ts  # Color utilities
+services/
+  database.ts         # SQLite database operations
+  ai-service.ts       # AI-powered expense categorization
+  currency-utils.ts   # Currency formatting and parsing
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Database Schema
 
-## Learn more
+The app uses SQLite for local storage with the following tables:
 
-To learn more about developing your project with Expo, look at the following resources:
+### Expenses Table
+```sql
+CREATE TABLE expenses (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  amount REAL NOT NULL,
+  category TEXT NOT NULL,
+  description TEXT,
+  date TEXT NOT NULL
+);
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Categories Table
+```sql
+CREATE TABLE categories (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE,
+  color TEXT NOT NULL
+);
+```
 
-## Join the community
+## AI Features
 
-Join our community of developers creating universal apps.
+The app includes a rule-based natural language processing system for automatic expense categorization:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+1. **Amount Extraction**: Automatically extracts amounts from natural language input
+2. **Category Detection**: Uses keyword matching to categorize expenses
+3. **Date Parsing**: Recognizes relative dates like "yesterday", "today", etc.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a pull request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [Expo](https://expo.dev/) for the amazing development platform
+- [React Native Chart Kit](https://github.com/indiespirit/react-native-chart-kit) for charting components
+- [Expo SQLite](https://docs.expo.dev/versions/latest/sdk/sqlite/) for local database storage

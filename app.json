@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "latestexpo",
-    "slug": "latestexpo",
+    "name": "Expense Tracker",
+    "slug": "expense-tracker",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "latestexpo",
+    "scheme": "expense-tracker",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
