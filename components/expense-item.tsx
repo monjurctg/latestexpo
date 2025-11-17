@@ -26,11 +26,25 @@ export const ExpenseItem: React.FC<ExpenseItemProps> = ({
   const textColor = useThemeColor({ light: '#333333', dark: '#ffffff' }, 'text');
   const subtitleColor = useThemeColor({ light: '#666666', dark: '#bbbbbb' }, 'text');
 
+  // Function to get a color for a category with better error handling
+  const getCategoryColor = (category: string): string => {
+    const colors: Record<string, string> = {
+      'Food': '#FF6384',
+      'Transport': '#36A2EB',
+      'Bills': '#FFCE56',
+      'Entertainment': '#4BC0C0',
+      'Others': '#9966FF'
+    };
+
+    // Return the color if category exists, otherwise a default color
+    return colors[category] || '#CCCCCC';
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <ThemedText type="defaultSemiBold" style={[styles.description, { color: textColor }]}>
-          {description}
+          {description || 'No description'}
         </ThemedText>
         <View style={styles.actions}>
           <TouchableOpacity onPress={() => onEdit(id)} style={styles.editButton}>
@@ -44,31 +58,18 @@ export const ExpenseItem: React.FC<ExpenseItemProps> = ({
 
       <View style={styles.details}>
         <ThemedText style={[styles.amount, { color: textColor }]}>
-          {formatCurrency(amount, DEFAULT_CURRENCY)}
+          {formatCurrency(amount || 0, DEFAULT_CURRENCY)}
         </ThemedText>
         <View style={[styles.categoryBadge, { backgroundColor: getCategoryColor(category) }]}>
-          <ThemedText style={styles.categoryText}>{category}</ThemedText>
+          <ThemedText style={styles.categoryText}>{category || 'Uncategorized'}</ThemedText>
         </View>
       </View>
 
       <ThemedText style={[styles.date, { color: subtitleColor }]}>
-        {date.toLocaleDateString()}
+        {date ? date.toLocaleDateString() : new Date().toLocaleDateString()}
       </ThemedText>
     </View>
   );
-};
-
-// Simple function to get a color for a category (in a real app, this would come from the database)
-const getCategoryColor = (category: string): string => {
-  const colors: Record<string, string> = {
-    'Food': '#FF6384',
-    'Transport': '#36A2EB',
-    'Bills': '#FFCE56',
-    'Entertainment': '#4BC0C0',
-    'Others': '#9966FF'
-  };
-
-  return colors[category] || '#CCCCCC';
 };
 
 const styles = StyleSheet.create({

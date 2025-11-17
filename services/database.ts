@@ -240,6 +240,18 @@ export const getCategoryTotals = (): { category: string; total: number; color: s
     const database = getDatabase();
     if (!database) return [];
 
+    // First check if there are any expenses
+    const expenseCount = database.getFirstSync('SELECT COUNT(*) as count FROM expenses') as { count: number };
+    if (expenseCount.count === 0) {
+      return [];
+    }
+
+    // Check if there are any categories
+    const categoryCount = database.getFirstSync('SELECT COUNT(*) as count FROM categories') as { count: number };
+    if (categoryCount.count === 0) {
+      return [];
+    }
+
     const results = database.getAllSync(`
       SELECT e.category, SUM(e.amount) as total, c.color
       FROM expenses e

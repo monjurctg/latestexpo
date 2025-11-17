@@ -54,7 +54,7 @@ export default function ExpensesScreen() {
     try {
       const categoryList = getAllCategories();
       setCategories(categoryList);
-      if (categoryList.length > 0) {
+      if (categoryList.length > 0 && !selectedCategory) {
         setSelectedCategory(categoryList[0].name);
       }
     } catch (error) {
@@ -239,22 +239,28 @@ export default function ExpensesScreen() {
 
           <ThemedView style={styles.pickerContainer}>
             <ThemedText style={[styles.pickerLabel, { color: subtitleColor }]}>Category:</ThemedText>
-            <View style={[styles.pickerWrapper, { backgroundColor: inputBackgroundColor }]}>
-              <Picker
-                selectedValue={selectedCategory}
-                style={[styles.picker, { color: textColor }]}
-                onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-              >
-                {categories.map((category) => (
-                  <Picker.Item
-                    key={category.id}
-                    label={category.name}
-                    value={category.name}
-                    color={textColor}
-                  />
-                ))}
-              </Picker>
-            </View>
+            {categories.length > 0 ? (
+              <View style={[styles.pickerWrapper, { backgroundColor: inputBackgroundColor }]}>
+                <Picker
+                  selectedValue={selectedCategory}
+                  style={[styles.picker, { color: textColor }]}
+                  onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+                >
+                  {categories.map((category) => (
+                    <Picker.Item
+                      key={category.id}
+                      label={category.name}
+                      value={category.name}
+                      color={textColor}
+                    />
+                  ))}
+                </Picker>
+              </View>
+            ) : (
+              <ThemedText style={{ color: subtitleColor, padding: 10 }}>
+                No categories available. Add categories in Settings.
+              </ThemedText>
+            )}
           </ThemedView>
 
           <View style={styles.buttonRow}>
